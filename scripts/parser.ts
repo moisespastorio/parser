@@ -5,4 +5,6 @@ const parser = new Parser(tokens);
 
 const ast = parser.parse();
 
-// console.dir(ast.body, { depth: null });
+console.dir(ast.body, { depth: null });
+
+export default ast;

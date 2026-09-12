@@ -1,1 +1,5 @@
+fn soma(a, b) {
+    print a + b;
+}
+
 soma(10, 20);

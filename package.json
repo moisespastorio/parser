@@ -9,7 +9,8 @@
     "test:parser": "vitest run --dir tests tests/parser.test.ts",
     "test:interpreter": "vitest run --dir tests tests/interpreter.test.ts",
     "scripts:lexer": "npx tsx scripts/lexer.ts",
-    "scripts:parser": "npx tsx scripts/parser.ts"
+    "scripts:parser": "npx tsx scripts/parser.ts",
+    "scripts:interpreter": "npx tsx scripts/interpreter.ts"
   },
   "keywords": [],
   "author": "",

@@ -5,7 +5,6 @@ import { Environment } from "./Environment";
 
 export class Interpreter {
     private environment: Environment = new Environment();
-    private prevEnvironment: Environment = this.environment;
     interpret(program: Program): void {
         const stmts = program.body;
         for(let stmt of stmts) {
@@ -51,20 +50,20 @@ export class Interpreter {
 
                 break;
             case "block":
-                this.executeBlock(stmt.stmts);
+                this.executeBlock(stmt.stmts, new Environment(this.environment));
         }
     }
 
-    private executeBlock(stmts: Stmt[]): void {
-        this.prevEnvironment = this.environment;
+    executeBlock(stmts: Stmt[], environment: Environment): void {
+        const prevEnvironment = this.environment;
         try {
-            this.environment = new Environment(this.environment);
+            this.environment = environment;
 
             for(let stmt of stmts) {
                 this.execute(stmt);
             }
         } finally {
-            this.environment = this.prevEnvironment;
+            this.environment = prevEnvironment;
         }
     }
 

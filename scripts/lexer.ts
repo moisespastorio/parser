@@ -7,6 +7,6 @@ const lexer = new Lexer(str);
 
 const tokens = lexer.tokenize();
 
-// console.log(tokens);
+console.log(tokens);
 
 export default tokens;

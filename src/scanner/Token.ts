@@ -1,6 +1,6 @@
 export type Token = {
     kind: TokenType;
-    value: string;
+    value: string | number | boolean | null;
 };
 
 export enum TokenType {
@@ -19,13 +19,24 @@ export enum TokenType {
     MOD = "MOD",
     OPENPAREN = "OPENPAREN",
     CLOSEPAREN = "CLOSEPAREN",
+    OPENBRACKET = "OPENBRACKET",
+    CLOSEBRACKET = "CLOSEBRACKET",
     SEMICOLON = "SEMICOLON",
     HASH = "HASH",
+    QUOTES = "QUOTES",
+    IF = "IF",
+    ELSE = "ELSE",
+    WHILE = "WHILE",
+    FOR = "FOR",
     INIT = "INIT",
     PRINT = "PRINT",
+    AND = "AND",
+    OR = "OR",
     IDENTIFIER = "IDENTIFIER",
     NUMBER = "NUMBER",
     STRING = "STRING",
+    BOOLEAN = "BOOLEAN",
+    NIL = "NIL",
     EOF = "EOF",
 };
 
@@ -46,8 +57,17 @@ export const symbols: Partial<Record<TokenType, string>> = {
     [TokenType.MOD]: "%",
     [TokenType.OPENPAREN]: "(",
     [TokenType.CLOSEPAREN]: ")",
+    [TokenType.OPENBRACKET]: "{",
+    [TokenType.CLOSEBRACKET]: "}",
     [TokenType.HASH]: "#",
     [TokenType.EOF]: "EOF",
     [TokenType.PRINT]: "PRINT",
-    [TokenType.INIT]: "INIT"
+    [TokenType.INIT]: "INIT",
+    [TokenType.AND]: "and",
+    [TokenType.OR]: "or",
+    [TokenType.IF]: "IF",
+    [TokenType.ELSE]: "ELSE",
+    [TokenType.WHILE]: "WHILE",
+    [TokenType.FOR]: "FOR",
+    [TokenType.QUOTES]: "\""
 };

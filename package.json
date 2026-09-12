@@ -11,5 +11,8 @@
   "description": "",
   "dependencies": {
     "tsx": "^4.23.13"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.2"
   }
 }

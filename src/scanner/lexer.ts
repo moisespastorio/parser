@@ -60,6 +60,14 @@ export class Lexer {
                 this.add(TokenType.CLOSEPAREN);
                 continue;
             }
+            if(this.match(TokenType.OPENBRACKET)) {
+                this.add(TokenType.OPENBRACKET);
+                continue;
+            }
+            if(this.match(TokenType.CLOSEBRACKET)) {
+                this.add(TokenType.CLOSEBRACKET);
+                continue;
+            }
             if(this.match(TokenType.MOD)) {
                 this.add(TokenType.MOD);
                 continue;
@@ -88,6 +96,10 @@ export class Lexer {
                 }
                 continue;
             }
+            if(this.match(TokenType.QUOTES)) {
+                this.quotation();
+                continue;
+            }
             if(this.isAlpha()) {
                 this.string();
                 continue;
@@ -101,11 +113,11 @@ export class Lexer {
         return this.tokens;
     }
     consume(): string {
-        return this.source.shift() || "";
+        return this.source.shift()!;
     }
     match(type: TokenType): boolean {
         const symbol = symbols[type];
-
+        
         const cur = this.source[0];
         if(cur === symbol) {
             this.consume();
@@ -123,6 +135,21 @@ export class Lexer {
             value: symbols[type]!
         });
     }
+    quotation(): void {
+        let str = "";
+        while(this.source[0] !== "\"" && this.source[0] !== ";" && this.source.length > 0) {
+            str += this.consume();
+        }
+        let cur = this.consume();
+        if(cur !== "\"") {
+            throw new Error("Expected '\"' at end of the string");
+        }
+
+        this.tokens.push({
+            kind: TokenType.STRING,
+            value: str
+        });
+    }
     string(): void {
         let identifier = "";
         while(this.isAlphanumeric() && this.source.length > 0) {
@@ -134,6 +161,48 @@ export class Lexer {
                 break;
             case "print":
                 this.add(TokenType.PRINT);
+                break;
+            case "and":
+                this.add(TokenType.AND);
+                break;
+            case "or":
+                this.add(TokenType.OR);
+                break;
+            case "true":
+                this.tokens.push({
+                    kind: TokenType.BOOLEAN,
+                    value: true
+                });
+                break;
+            case "false":
+                this.tokens.push({
+                    kind: TokenType.BOOLEAN,
+                    value: false
+                });
+                break;
+            case "nil":
+                this.tokens.push({
+                    kind: TokenType.NIL,
+                    value: null
+                });
+                break;
+            case "if":
+                this.tokens.push({
+                    kind: TokenType.IF,
+                    value: symbols[TokenType.IF]!
+                });
+                break;
+            case "while":
+                this.tokens.push({
+                    kind: TokenType.WHILE,
+                    value: symbols[TokenType.WHILE]!
+                });
+                break;
+            case "for":
+                this.tokens.push({
+                    kind: TokenType.FOR,
+                    value: symbols[TokenType.FOR]!
+                })
                 break;
             default:
                 this.tokens.push({
@@ -149,7 +218,7 @@ export class Lexer {
         };
         this.tokens.push({
             kind: TokenType.NUMBER,
-            value: num
+            value: Number(num)
         });
     }
     isAlpha(): boolean {

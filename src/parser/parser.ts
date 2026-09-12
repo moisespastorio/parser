@@ -9,6 +9,7 @@ import {
   InitStmt,
   Stmt,
   Program,
+  FnStmt,
 } from "./AST";
 
 export class Parser {
@@ -31,7 +32,53 @@ export class Parser {
     if (this.match(TokenType.INIT)) {
       return this.initDeclaration();
     }
+    if (this.match(TokenType.FN)) {
+      return this.functionStmt();
+    }
     return this.stmt();
+  }
+  functionStmt(): FnStmt {
+    const name = this.consume(
+      TokenType.IDENTIFIER,
+      "Expect function name."
+    )
+
+    this.consume(
+      TokenType.OPENPAREN,
+      "Expect '(' after function name."
+    )
+
+    const params: Token[] = [];
+
+    if(!this.check(TokenType.CLOSEPAREN)) {
+      do {
+        const param = this.consume(
+          TokenType.IDENTIFIER,
+          "Expect param name."
+        )
+
+        params.push(param);
+      } while(this.match(TokenType.COMMA))
+    }
+
+    this.consume(
+      TokenType.CLOSEPAREN,
+      "Expect ')' after parameters list."
+    )
+
+    this.consume(
+      TokenType.OPENBRACKET,
+      "Expect '{' before function body."
+    )
+
+    const body = this.blockStmt();
+
+    return {
+      type: "function",
+      name: name,
+      params,
+      body
+    }
   }
   initDeclaration(): InitStmt {
     const name = this.consume(

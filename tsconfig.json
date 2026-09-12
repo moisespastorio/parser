@@ -5,7 +5,10 @@
     "moduleResolution": "bundler",
     "esModuleInterop": true,
     "allowArbitraryExtensions": true,
-    "types": ["node"]
+    "types": ["node"],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "tests/**/*", "scripts/**/*"]
 }

@@ -4,6 +4,7 @@ export type Token = {
 };
 
 export enum TokenType {
+    // Simple tokens
     BANG = "BANG",
     BANG_EQUAL = "BANG_EQUAL",
     EQUAL = "EQUAL",
@@ -24,6 +25,9 @@ export enum TokenType {
     SEMICOLON = "SEMICOLON",
     HASH = "HASH",
     QUOTES = "QUOTES",
+    COMMA = "COMMA",
+    // Keywords
+    FN = "FN",
     IF = "IF",
     ELSE = "ELSE",
     WHILE = "WHILE",
@@ -32,6 +36,7 @@ export enum TokenType {
     PRINT = "PRINT",
     AND = "AND",
     OR = "OR",
+    // Identifiers and literals
     IDENTIFIER = "IDENTIFIER",
     NUMBER = "NUMBER",
     STRING = "STRING",
@@ -60,11 +65,13 @@ export const symbols: Partial<Record<TokenType, string>> = {
     [TokenType.OPENBRACKET]: "{",
     [TokenType.CLOSEBRACKET]: "}",
     [TokenType.HASH]: "#",
+    [TokenType.COMMA]: ",",
     [TokenType.EOF]: "EOF",
     [TokenType.PRINT]: "PRINT",
     [TokenType.INIT]: "INIT",
     [TokenType.AND]: "and",
     [TokenType.OR]: "or",
+    [TokenType.FN]: "FN",
     [TokenType.IF]: "IF",
     [TokenType.ELSE]: "ELSE",
     [TokenType.WHILE]: "WHILE",

@@ -1,6 +1,7 @@
 import { Token, TokenType } from "../scanner/Token"
 
 export type Expr =
+    | CallExpr
     | Logical
     | Binary
     | Literal
@@ -33,6 +34,13 @@ export type Unary = {
     right: Expr;
 }
 
+export type FnStmt = {
+    type: "function";
+    name: Token;
+    params: Token[];
+    body: Stmt;
+}
+
 export type IfStmt = {
     type: "if";
     condition: Expr;
@@ -57,6 +65,12 @@ export type InitStmt = {
     initializer: Expr | null;
 }
 
+export type CallExpr = {
+    type: "call";
+    callee: Expr;
+    args: Expr[];
+}
+
 export type InitExpr = {
     type: "variable";
     name: string;
@@ -74,6 +88,7 @@ export type ExprStmt = {
 }
 
 export type Stmt = 
+    | FnStmt
     | IfStmt
     | WhileStmt
     | PrintStmt

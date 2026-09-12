@@ -96,6 +96,9 @@ export class Lexer {
                 }
                 continue;
             }
+            if(this.match(TokenType.COMMA)) {
+                this.add(TokenType.COMMA);
+            }
             if(this.match(TokenType.QUOTES)) {
                 this.quotation();
                 continue;

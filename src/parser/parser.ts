@@ -374,7 +374,16 @@ export class Parser {
         right,
       };
     }
-    return this.primary();
+    return this.call();
+  }
+  call(): Expr {
+    let expr = this.primary();
+
+    while(this.match(TokenType.OPENPAREN)) {
+      expr = this.finishCall(expr);
+    }
+
+    return expr;
   }
   primary(): Expr {
     // console.log(this.peek());
@@ -406,6 +415,26 @@ export class Parser {
       return expr;
     }
     throw new Error("Expected expression.");
+  }
+  finishCall(callee: Expr): Expr {
+    const args: Expr[] = [];
+
+    if(!this.check(TokenType.CLOSEPAREN)) {
+      do {
+        args.push(this.expr());
+      } while(this.match(TokenType.COMMA))
+    }
+
+    this.consume(
+      TokenType.CLOSEPAREN,
+      "Expect ')' after arguments."
+    )
+
+    return {
+      type: "call",
+      callee,
+      args
+    }
   }
   peek(): TokenType {
     return this.tokens[this.current].kind;

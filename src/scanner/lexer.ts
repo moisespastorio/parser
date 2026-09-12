@@ -159,6 +159,9 @@ export class Lexer {
             identifier += this.consume();
         }
         switch(identifier) {
+            case "fn":
+                this.add(TokenType.FN);
+                break;
             case "init":
                 this.add(TokenType.INIT);
                 break;

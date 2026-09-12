@@ -1,5 +1,6 @@
 import { Program, Stmt, Expr, Binary, Unary, IfStmt, Logical, WhileStmt } from "../parser/AST";
 import { TokenType } from "../scanner/Token";
+import { MoiFunction } from './MoiFunction';
 import { Environment } from "./Environment";
 
 export class Interpreter {
@@ -16,6 +17,15 @@ export class Interpreter {
         switch(stmt.type) {
             case "expression":
                 this.evaluate(stmt.expr);
+                break;
+            case "function":
+                const fn = new MoiFunction(stmt, this.environment);
+
+                this.environment.define(
+                    stmt.name.value as string,
+                    fn
+                )
+
                 break;
             case "if":
                 this.evaluateIf(stmt);
@@ -60,6 +70,10 @@ export class Interpreter {
 
     private evaluate(expr: Expr): unknown {
         switch(expr.type) {
+            case "call":
+                const callee = this.evaluate(expr.callee);
+                console.log(callee);
+                return;
             case "literal":
                 return expr.value;
             case "logical":

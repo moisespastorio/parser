@@ -88,6 +88,7 @@ export type ExprStmt = {
 }
 
 export type Stmt = 
+    | CallExpr
     | FnStmt
     | IfStmt
     | WhileStmt
